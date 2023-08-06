@@ -37,8 +37,8 @@ const Login = () =>{
     try {
       const {data} = await clienteAxios.post('/login',{email,password});
       localStorage.setItem('task_token',data.access_token);
-      navigate('/admin')
-      return;
+      setAuth(data);
+      navigate('/admin');
     } catch (error) { 
       if (error.response && error.response.data && error.response.data.errors) {
           setAlerta({msg: error.response.data.errors, error: true});
