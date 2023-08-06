@@ -3,6 +3,8 @@ import clienteAxios from '../config/axios';
 
 const AuthContext = createContext();
 
+
+
 const AuthProvider = ({children}) => {
     const [cargando, setCargando] = useState(true);
     const [auth,setAuth] = useState({});
@@ -23,6 +25,7 @@ const AuthProvider = ({children}) => {
                 }
             }
 
+
             try {
                const { data } =await clienteAxios('/user',config);
                setAuth(data);
@@ -35,8 +38,23 @@ const AuthProvider = ({children}) => {
         autenticarUsuario();
     },[]);
 
-    const cerrarSesion = () => {
-        localStorage.removeItem('token');
+    const cerrarSesion = async () => {
+        const token = localStorage.getItem('task_token');
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        try {
+            const { data } = await clienteAxios.delete('/logout',config);
+            localStorage.removeItem('task_token');
+            setAuth({});
+         } catch (error) {
+            console.log(error)
+         }
+        localStorage.removeItem('task_token');
         setAuth({});
     }
 
