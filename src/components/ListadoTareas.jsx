@@ -4,7 +4,7 @@ import Tarea from "./Tarea";
 import Modal from "./Modal";
 
 const ListadoTareas = () => {
-    const {tareas,setEdicion,eliminarTarea} = useTareas();
+    const {tareas,setEdicionTarea,eliminarTarea} = useTareas();
     const [modal,setModal] = useState({});
 
     const handleEliminarTarea = (id) => {
@@ -37,6 +37,7 @@ const ListadoTareas = () => {
                         key={tarea.id}
                         tarea={tarea}
                         eliminarTarea={handleEliminarTarea}
+                        setEdicionTarea={setEdicionTarea}
                     />
                 ) 
             )}
