@@ -7,16 +7,37 @@ const TareasProvider = ({children}) => {
     const [tareas, setTareas] = useState([]);
 
     const token = localStorage.getItem('task_token');
-    const config = {
-        headers: {
-            'Content-Type': 'multipart/form-data', 
-            Authorization: `Bearer ${token}`
+
+
+    useEffect(() => {
+        const obtenerTareas = async () => {
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data', 
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+                if(!token) return;
+
+               const {data} = await clienteAxios('/tasks',config);
+               setTareas(data.data);
+            } catch (error) {
+               console.log(error) ;
+            }
         }
-    }
+        obtenerTareas();
+    },[]);
 
     const guardarTarea = async (tarea) => {
         const {title,description,date,time,checkList,filesList} = tarea;
         
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data', 
+                Authorization: `Bearer ${token}`
+            }
+        }
         
         let dateFormat = new Date(date);
         dateFormat = new Date(dateFormat.getFullYear(), dateFormat.getMonth(), dateFormat.getDate());
@@ -26,7 +47,7 @@ const TareasProvider = ({children}) => {
             "data": {
                 title,
                 description,
-                "date_start": `${formattedDate} ${time}:00`
+                "date_start": `${formattedDate}`
             },
             "include":{
                 "checklists": checkList,
@@ -35,9 +56,7 @@ const TareasProvider = ({children}) => {
         };
 
         try {
-           const {data}  = await clienteAxios.post('/tasks',task,config)
-
-           setTareas([data, ...tareas]);
+           const {data}  = await clienteAxios.post('/tasks',task,config) 
         } catch (error) { 
             console.log(error);
         }
@@ -47,6 +66,7 @@ const TareasProvider = ({children}) => {
   return (
     <TareasContext.Provider 
         value={{
+            tareas,
             guardarTarea
         }}
     >

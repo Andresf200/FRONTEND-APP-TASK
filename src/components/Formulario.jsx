@@ -7,7 +7,6 @@ const Formulario = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
     const [check, setCheck] = useState([]);
     const [checkList, setCheckList] = useState([]);
     const [filesList, setFilesList] = useState([]);
@@ -21,7 +20,6 @@ const Formulario = () => {
              setTitle('');
              setDescription('');
              setDate('');
-             setTime('');
              setCheckList([]);
              setFilesList([]);
     }
@@ -43,7 +41,7 @@ const Formulario = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-         if([title, description,date,time].includes('')){
+         if([title, description,date].includes('')){
             setAlerta({
                 msg:'Los campos title, descripcion, fecha inicio y hora inicio son obligatorios',
                 error:true,
@@ -53,7 +51,7 @@ const Formulario = () => {
          }
 
          setAlerta({});
-         guardarTarea({title,description,date,time,checkList,filesList});
+         guardarTarea({title,description,date,checkList,filesList});
          setAlerta({msg:"Guardado Correctamente", type:"frontend"});
          resetForm();
     }
@@ -109,7 +107,7 @@ const Formulario = () => {
         </div>
       </div> 
       <div className="-mx-3 flex flex-wrap">
-        <div className="w-full px-3 sm:w-1/2">
+        <div className="w-full px-3">
           <div className="mb-5">
             <label
               htmlFor="date"
@@ -122,23 +120,6 @@ const Formulario = () => {
               name={date}
               id="date"
               onChange={e => setDate(e.target.value)}
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-blue-400 focus:shadow-md"
-            />
-          </div>
-        </div>
-        <div className="w-full px-3 sm:w-1/2">
-          <div className="mb-5">
-            <label
-              htmlFor="time"
-              className="mb-3 block text-base font-medium text-[#07074D]"
-            >
-              Hora de Inicio
-            </label>
-            <input
-              type="time"
-              name={time}
-              id="time"
-              onChange={e => setTime(e.target.value)}
               className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-blue-400 focus:shadow-md"
             />
           </div>
