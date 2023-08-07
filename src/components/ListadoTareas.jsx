@@ -1,8 +1,27 @@
+import { useState,useEffect } from "react";
 import useTareas from "../hooks/useTareas"
 import Tarea from "./Tarea";
+import Modal from "./Modal";
 
 const ListadoTareas = () => {
-    const {tareas} = useTareas();
+    const {tareas,setEdicion,eliminarTarea} = useTareas();
+    const [modal,setModal] = useState({});
+
+    const handleEliminarTarea = (id) => {
+        setModal({estado: true,id: id});
+        return;
+    }
+
+    const cancelarModal = () => {
+        setModal({estado: false,id: null});
+        return;
+    }
+
+    const confirmarModal = (id) => {
+        eliminarTarea(id);
+        setModal({estado: false,id: null});
+    }
+
 
   return (
     <>
@@ -17,6 +36,7 @@ const ListadoTareas = () => {
                     <Tarea  
                         key={tarea.id}
                         tarea={tarea}
+                        eliminarTarea={handleEliminarTarea}
                     />
                 ) 
             )}
@@ -29,6 +49,19 @@ const ListadoTareas = () => {
             </>
         )
         }
+
+        {modal.estado && (
+        <Modal 
+            modal={modal}
+            > 
+                <button className="inline-block rounded-md bg-red-500 px-10 py-2 font-semibold text-red-100 shadow-md duration-75 hover:bg-red-400"
+                onClick={cancelarModal}
+                >Cancelar</button>
+                <button className="inline-block rounded-md bg-green-500 px-6 py-2 font-semibold text-green-100 shadow-md duration-75 hover:bg-green-400"
+                onClick={() => confirmarModal(modal.id)}
+                >Confirmar</button> 
+            </Modal>
+        )}
     </>
   )
 }

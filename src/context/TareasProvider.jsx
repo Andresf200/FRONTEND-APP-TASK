@@ -1,10 +1,12 @@
 import { createContext,useState,useEffect } from "react"
 import clienteAxios from "../config/axios";
+import useAuth from "../hooks/useAuth";
 
 const TareasContext = createContext();
 
 const TareasProvider = ({children}) => {
     const [tareas, setTareas] = useState([]);
+    const {auth} = useAuth();
 
     const token = localStorage.getItem('task_token');
 
@@ -14,7 +16,7 @@ const TareasProvider = ({children}) => {
             try {
                 const config = {
                     headers: {
-                        'Content-Type': 'multipart/form-data', 
+                        'Content-Type': 'aplication/json', 
                         Authorization: `Bearer ${token}`
                     }
                 }
@@ -27,7 +29,7 @@ const TareasProvider = ({children}) => {
             }
         }
         obtenerTareas();
-    },[]);
+    },[auth]);
 
     const guardarTarea = async (tarea) => {
         const {title,description,date,time,checkList,filesList} = tarea;
@@ -57,17 +59,39 @@ const TareasProvider = ({children}) => {
 
         try {
            const {data}  = await clienteAxios.post('/tasks',task,config) 
+            setTareas([...tareas,data.data])
+           return;
         } catch (error) { 
             console.log(error);
         }
 
     }
 
+    const eliminarTarea = async(id) => {
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'aplication/json', 
+                    Authorization: `Bearer ${token}`
+                }
+            }
+
+            const { data } = await clienteAxios.delete(`tasks/${id}`,config);
+
+            const tareasActualizada = tareas.filter(tareaState => tareaState.attributes.id !== id)
+            setTareas(tareasActualizada); 
+            return;
+        } catch (error) {
+           console.log(error); 
+        }
+    }
+
   return (
     <TareasContext.Provider 
         value={{
             tareas,
-            guardarTarea
+            guardarTarea,
+            eliminarTarea 
         }}
     >
         {children}
