@@ -4,6 +4,7 @@ import Login from "./paginas/Login";
 import Registrar from "./paginas/Registrar"
 import RutaProtegida from "./layout/RutaProtegida";
 import AdministrarTareas from "./paginas/AdministrarTareas";
+import ListarTareasUsuario from "./paginas/ListarTareasUsuario";
 
 import { AuthProvider } from "./context/AuthProvider";
 import { TareasProvider } from "./context/TareasProvider";
@@ -22,6 +23,7 @@ function App() {
             </Route>
             <Route path='/admin' element={<RutaProtegida/>}>
               <Route index element={<AdministrarTareas />}/>
+              <Route path='filtrar' element={<ListarTareasUsuario />}/>
             </Route>
           </Routes>
         </TareasProvider>

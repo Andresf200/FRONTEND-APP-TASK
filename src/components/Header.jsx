@@ -12,6 +12,8 @@ const Header = () => {
                 <Link to="/admin" className="text-white text-sm font-bold uppercase"> 
                 Administrar Tareas</Link>
 
+                <Link to="/admin/filtrar" className="text-white text-sm font-bold uppercase"> 
+                Filtrar Tareas</Link>
                 <button 
                 type="button" 
                 className="text-white text-sm font-bold uppercase"
@@ -19,6 +21,7 @@ const Header = () => {
                 > 
                 Cerrar Sesión</button>
             </nav>
+            
         </div>
 
     </header>

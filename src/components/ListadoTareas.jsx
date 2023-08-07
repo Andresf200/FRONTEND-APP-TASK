@@ -2,10 +2,12 @@ import { useState,useEffect } from "react";
 import useTareas from "../hooks/useTareas"
 import Tarea from "./Tarea";
 import Modal from "./Modal";
+import InformacionTareaModal from "./InformacionTareaModal";
 
 const ListadoTareas = () => {
     const {tareas,setEdicionTarea,eliminarTarea} = useTareas();
     const [modal,setModal] = useState({});
+    const [mostrarTarea,setMostrarTarea] = useState({});
 
     const handleEliminarTarea = (id) => {
         setModal({estado: true,id: id});
@@ -20,6 +22,12 @@ const ListadoTareas = () => {
     const confirmarModal = (id) => {
         eliminarTarea(id);
         setModal({estado: false,id: null});
+    }
+
+    const mostrarInformacionTarea = (id) => { 
+        console.log(id)
+        setEdicionTarea(id); 
+        setMostrarTarea({estado:true})
     }
 
 
@@ -38,6 +46,7 @@ const ListadoTareas = () => {
                         tarea={tarea}
                         eliminarTarea={handleEliminarTarea}
                         setEdicionTarea={setEdicionTarea}
+                        mostrarTarea={mostrarInformacionTarea}
                     />
                 ) 
             )}
@@ -62,7 +71,15 @@ const ListadoTareas = () => {
                 onClick={() => confirmarModal(modal.id)}
                 >Confirmar</button> 
             </Modal>
+
+        
         )}
+
+        {
+          mostrarTarea.estado && (
+            <InformacionTareaModal mostrarTarea={mostrarTarea} setMostrarTarea={setMostrarTarea} />
+          )
+        }
     </>
   )
 }

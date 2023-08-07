@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Tarea = ({tarea,eliminarTarea,setEdicionTarea}) => {
+const Tarea = ({tarea,eliminarTarea,setEdicionTarea,mostrarTarea}) => {
     const {id,title,description,state,date_start,date_end,checklist,checklist_completed} = tarea.attributes;
 
     const [tiempoRestante, setTiempoRestante] = useState('');
@@ -90,7 +90,9 @@ const Tarea = ({tarea,eliminarTarea,setEdicionTarea}) => {
                   </span>
                   <span>-</span>
             </button>
-            <button className="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border-y border-slate-200 font-medium px-4 py-2 inline-flex space-x-1 items-center">
+            <button className="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border-y border-slate-200 font-medium px-4 py-2 inline-flex space-x-1 items-center"
+            onClick={() => mostrarTarea(id)}
+            >
             <span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
